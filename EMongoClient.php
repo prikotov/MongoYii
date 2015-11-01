@@ -178,7 +178,7 @@ class EMongoClient extends CApplicationComponent
 		parent::init();
 
 		if($this->db){
-			$this->options['db'] = $this->db;
+			//$this->options['db'] = $this->db;
 		}
 		
 		if($this->autoConnect){

@@ -383,7 +383,19 @@ class EMongoModel extends CModel
 		// Let's get the parts of the relation to understand it entirety of its context
 		$cname = $relation[1];
 		$fkey = $relation[2];
-		$pk = isset($relation['on']) ? $this->{$relation['on']} : $this->getPrimaryKey();
+		//$pk = isset($relation['on']) ? $this->{$relation['on']} : $this->getPrimaryKey();
+
+        if( isset($relation['on']) ) {
+            if( is_string($relation['on']) ) {
+                $pk = $this->{$relation['on']};
+            } elseif( is_callable($relation['on'], true) ) {
+                $pk = call_user_func($relation['on']);
+            } else {
+                $pk = $this->{$relation['on']};
+            }
+        } else {
+            $pk = $this->getPrimaryKey();
+        }
 
 		// This takes care of cases where the PK is an DBRef and only one DBRef, where it could 
 		// be mistaken as a multikey field 
