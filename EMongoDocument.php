@@ -1206,8 +1206,8 @@ class EMongoDocument extends EMongoModel
 		foreach($this->getSafeAttributeNames() as $attribute){
 
 			$value = $this->{$attribute};
-			if($value !== null && $value !== ''){
-				if((is_array($value) && count($value)) || is_object($value) || is_bool($value)){
+			if(!($value === null || $value === '' || is_array($value) && count($value) == 0)){
+				if(is_array($value) || is_object($value) || is_bool($value)){
 					$query[$attribute] = $value;
 				}elseif(preg_match('/^(?:\s*(<>|<=|>=|<|>|=))?(.*)$/', $value, $matches)){
 					$value = $matches[2];
